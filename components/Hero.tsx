@@ -106,14 +106,34 @@ export default function Hero() {
           {/* Left Content */}
           <motion.div variants={itemVariants} className="space-y-6">
             <motion.h1
-              className="text-5xl md:text-6xl font-bold"
+              className="text-5xl md:text-7xl font-bold leading-tight"
               style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-display)', letterSpacing: '-0.03em' }}
               variants={itemVariants}
             >
-              Antoine <br />
-              <span style={{ background: 'linear-gradient(135deg, #6C63FF 0%, #3B82F6 100%)', backgroundClip: 'text', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                PELTIER
-              </span>
+              Antoine{" "}
+              <br className="md:hidden" />
+              <motion.span
+                className="relative inline-block"
+                initial={{ width: 0 }}
+                animate={{ width: 'auto' }}
+                transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
+              >
+                <span className="relative z-10" style={{ 
+                  background: 'linear-gradient(135deg, #6C63FF 0%, #3B82F6 100%)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                }}>
+                  PELTIER
+                </span>
+                <motion.span 
+                  className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg -z-10"
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ delay: 0.7, duration: 0.6, ease: "easeOut" }}
+                  style={{ originX: 0, filter: 'blur(8px)', opacity: 0.3 }}
+                />
+              </motion.span>
             </motion.h1>
 
             <motion.div variants={itemVariants} className="h-12">

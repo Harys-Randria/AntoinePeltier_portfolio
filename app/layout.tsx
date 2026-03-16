@@ -3,8 +3,15 @@ import { Plus_Jakarta_Sans, Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const plusJakartaSans = Plus_Jakarta_Sans({ subsets: ["latin"], weights: [400, 600, 700, 800] })
-const inter = Inter({ subsets: ["latin"], weights: [400, 500] })
+const plusJakartaSans = Plus_Jakarta_Sans({ 
+  subsets: ["latin"], 
+  weight: ["400", "600", "700", "800"] // "weights" -> "weight"
+})
+
+const inter = Inter({ 
+  subsets: ["latin"], 
+  weight: ["400", "500"] // "weights" -> "weight"
+})
 
 export const metadata: Metadata = {
   title: 'Antoine PELTIER - Développeur iOS Senior | Portfolio',
@@ -17,23 +24,10 @@ export const metadata: Metadata = {
     type: 'website',
   },
   icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
-  },
-}
+    icon: '/antoine-peltier.png',  
+    apple: '/antoine-peltier.png',  
+  }
+} // Ajout de l'accolade fermante manquante
 
 export default function RootLayout({
   children,

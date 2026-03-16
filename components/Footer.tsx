@@ -131,7 +131,6 @@ export default function Footer() {
           viewport={{ once: true }}
         >
           <p>© {currentYear} Antoine PELTIER — Développeur iOS</p>
-          <p className="mt-2">Conçu avec passion et créativité</p>
         </motion.div>
       </div>
     </footer>

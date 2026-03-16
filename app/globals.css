@@ -1,64 +1,55 @@
 @import 'tailwindcss';
 
-/* Font definitions */
-@layer base {
-  @font-face {
-    font-family: 'Plus Jakarta Sans';
-    src: local('Plus Jakarta Sans');
-  }
-  @font-face {
-    font-family: 'Inter';
-    src: local('Inter');
-  }
-}
+/* No custom fonts — iOS uses the system font stack exclusively */
 
-/* Color system - Light Apple Theme */
+/* ─── Color system — True iOS Light Theme ─────────────────────────────────── */
 :root {
-  /* Backgrounds */
+  /* Backgrounds — iOS grouped & inset style */
   --color-bg-primary: #FFFFFF;
-  --color-bg-secondary: #F9FAFB;
-  --color-bg-tertiary: #F0F7FF;
+  --color-bg-secondary: #F2F2F7;   /* iOS systemGroupedBackground */
+  --color-bg-tertiary: #EFEFF4;
   --color-bg-card: #FFFFFF;
-  --color-bg-card-hover: #F8FAFC;
-  --color-bg-elevated: #F0F4F8;
+  --color-bg-card-hover: #F9F9FB;
+  --color-bg-elevated: #FFFFFF;    /* iOS elevated = plain white, no gradient */
 
-  /* Accent system */
-  --color-accent-blue: #3B82F6;
-  --color-accent-violet: #6C63FF;
-  --color-accent-green: #10B981;
-  --color-accent-orange: #F97316;
-  --color-accent-cyan: #06B6D4;
-  --color-accent-pink: #EC4899;
+  /* iOS SF System Colors — exact values */
+  --color-accent-blue:   #007AFF;  /* iOS systemBlue */
+  --color-accent-green:  #34C759;  /* iOS systemGreen */
+  --color-accent-orange: #FF9500;  /* iOS systemOrange */
+  --color-accent-teal:   #5AC8FA;  /* iOS systemTeal */
+  --color-accent-indigo: #5856D6;  /* iOS systemIndigo */
+  --color-accent-pink:   #FF2D55;  /* iOS systemPink */
+  --color-accent-violet: #5856D6;  /* alias indigo — pour garder compat. */
 
-  /* Text */
-  --color-text-primary: #1E1B4B;
-  --color-text-secondary: #64748B;
-  --color-text-tertiary: #94A3B8;
+  /* Text — iOS label hierarchy */
+  --color-text-primary:   #000000;  /* iOS label */
+  --color-text-secondary: #3C3C43CC; /* iOS secondaryLabel (opacity 80%) */
+  --color-text-tertiary:  #3C3C4399; /* iOS tertiaryLabel (opacity 60%) */
 
-  /* Separators */
-  --color-separator: #E2E8F0;
-  --color-separator-opaque: #CBD5E1;
+  /* Separators — iOS opaque & non-opaque */
+  --color-separator:        #C6C6C8; /* iOS separator */
+  --color-separator-opaque: #E5E5EA; /* iOS opaqueSeparator */
 
-  /* Typography */
-  --font-display: 'Plus Jakarta Sans', sans-serif;
-  --font-body: 'Inter', sans-serif;
+  /* Typography — SF Pro Display pour les titres, SF Pro Text pour le corps  */
+  /* Sur Mac/iPhone : SF Pro automatiquement. Windows : Segoe UI. Android : Roboto */
+  --font-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  --font-body:    -apple-system, BlinkMacSystemFont, 'SF Pro Text',    'Helvetica Neue', sans-serif;
 }
 
 @theme inline {
   --color-background: var(--color-bg-primary);
   --color-foreground: var(--color-text-primary);
-  --color-primary: var(--color-accent-blue);
-  --color-secondary: var(--color-accent-green);
-  --color-accent: var(--color-accent-purple);
-  --color-muted: var(--color-bg-card);
+  --color-primary:    var(--color-accent-blue);
+  --color-secondary:  var(--color-accent-green);
+  --color-accent:     var(--color-accent-indigo);
+  --color-muted:      var(--color-bg-secondary);
   --color-muted-foreground: var(--color-text-secondary);
-  --color-border: var(--color-separator);
-  --color-input: var(--color-bg-card);
+  --color-border:     var(--color-separator-opaque);
+  --color-input:      var(--color-bg-card);
   --radius: 1rem;
 }
 
 @layer base {
-  /* Global styling */
   * {
     @apply border-border;
   }
@@ -71,39 +62,39 @@
     font-family: var(--font-body);
     font-weight: 400;
     color: var(--color-text-primary);
-    background: linear-gradient(135deg, #F0F7FF 0%, #FFFFFF 40%, #F9FAFB 100%);
+    /* iOS background : blanc pur ou gris systemGrouped très subtil — pas de gradient */
+    background-color: var(--color-bg-secondary);
 
-    /* Scrollbar styling */
+    /* Scrollbar */
     scrollbar-color: var(--color-accent-blue) transparent;
     scrollbar-width: thin;
 
-    &::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: var(--color-bg-secondary);
-    }
-
+    &::-webkit-scrollbar { width: 8px; }
+    &::-webkit-scrollbar-track { background: var(--color-bg-secondary); }
     &::-webkit-scrollbar-thumb {
       background: var(--color-accent-blue);
       border-radius: 4px;
       border: 2px solid transparent;
       background-clip: content-box;
-
-      &:hover {
-        background-color: var(--color-accent-violet);
-        background-clip: content-box;
-      }
+      &:hover { background-color: var(--color-accent-indigo); background-clip: content-box; }
     }
   }
 
-  /* Typography defaults */
-  h1, h2, h3, h4, h5, h6 {
+  /* Typography — SF Pro Display pour les titres                              */
+  /* iOS utilise font-weight 700 (Bold) pour les grands titres               */
+  /* et 600 (Semibold) pour les sous-titres — jamais 800                     */
+  h1, h2 {
     font-family: var(--font-display);
-    font-weight: 800;
+    font-weight: 700;
     color: var(--color-text-primary);
-    letter-spacing: -0.03em;
+    letter-spacing: -0.02em;
+  }
+
+  h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--color-text-primary);
+    letter-spacing: -0.01em;
   }
 
   h4, h5, label, .label {
@@ -111,12 +102,12 @@
   }
 
   .label-uppercase {
-    font-size: 0.875rem;
+    font-size: 0.8125rem;        /* iOS caption1 = 12pt */
     font-weight: 600;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.06em;      /* iOS utilise peu de letter-spacing */
     text-transform: uppercase;
-    color: var(--color-accent-violet);
-    font-family: var(--font-display);
+    color: var(--color-accent-blue);
+    font-family: var(--font-body);
   }
 
   p, li, span {
@@ -124,213 +115,190 @@
     font-weight: 400;
   }
 
-  /* Selection styling */
   ::selection {
-    background-color: var(--color-accent-blue);
+    background-color: rgba(0, 122, 255, 0.2);
     color: var(--color-text-primary);
   }
 
-  /* Focus visible */
   :focus-visible {
     outline: 2px solid var(--color-accent-blue);
     outline-offset: 3px;
   }
 
-  /* Links */
   a {
     color: var(--color-accent-blue);
     text-decoration: none;
     transition: opacity 0.2s ease;
-
-    &:hover {
-      text-decoration: underline;
-    }
+    &:hover { opacity: 0.75; }
   }
 
-  /* Buttons base */
   button {
-    transition: all 0.2s ease;
-    font-family: var(--font-display);
+    transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    font-family: var(--font-body);
   }
 
-  /* Input styling */
   input, textarea, select {
-    background-color: #FFFFFF;
-    border: 1px solid var(--color-separator);
+    background-color: var(--color-bg-card);
+    border: 0.5px solid var(--color-separator);  /* iOS utilise 0.5px */
     color: var(--color-text-primary);
-    border-radius: 12px;
-    padding: 14px 16px;
+    border-radius: 10px;         /* iOS text field = 10px */
+    padding: 12px 16px;
     font-family: var(--font-body);
-    transition: all 0.25s ease;
+    transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
-    &::placeholder {
-      color: var(--color-text-tertiary);
-    }
-
+    &::placeholder { color: var(--color-text-tertiary); }
     &:focus {
-      border-color: var(--color-accent-violet);
-      box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+      border-color: var(--color-accent-blue);
+      box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15);
       outline: none;
     }
   }
 }
 
-/* Utility classes */
+/* ─── Card ────────────────────────────────────────────────────────────────── */
+/* iOS cards = fond blanc solide, border très fine 0.5px, rayon 16–20px     */
+/* Pas de gradient — c'est la règle fondamentale du langage iOS              */
 .card-base {
-  background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%);
-  border: 1px solid var(--color-separator);
-  border-radius: 1.25rem;
-  padding: 1.5rem;
-  backdrop-filter: blur(20px);
-  transition: all 0.3s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 12px rgba(59, 130, 246, 0.08);
+  background: var(--color-bg-card);          /* blanc solide */
+  border: 0.5px solid var(--color-separator-opaque);
+  border-radius: 16px;                       /* iOS standard card */
+  padding: 1.25rem;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 4px 16px rgba(0, 0, 0, 0.06);          /* ombre douce, pas colorée */
 
   &:hover {
-    background: linear-gradient(135deg, #FFFFFF 0%, #F0F7FF 100%);
-    transform: translateY(-4px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 8px 24px rgba(59, 130, 246, 0.15);
-    border-color: #BFDBFE;
+    background: var(--color-bg-card-hover);
+    transform: translateY(-2px);             /* iOS = mouvements discrets */
+    box-shadow:
+      0 2px 8px rgba(0, 0, 0, 0.06),
+      0 8px 24px rgba(0, 0, 0, 0.10);
+    border-color: var(--color-separator);
   }
 }
 
+/* ─── Badges — iOS tag style ──────────────────────────────────────────────── */
+/* iOS tags = rect arrondi 6–8px, fond solide léger, jamais pilule 9999px   */
 .badge-base {
   display: inline-flex;
   align-items: center;
-  border-radius: 9999px;
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  font-family: var(--font-display);
-  transition: all 0.3s ease;
+  border-radius: 8px;                        /* rect arrondi iOS — pas pilule */
+  padding: 0.3rem 0.75rem;
+  font-size: 0.8125rem;                      /* iOS footnote = 13px */
+  font-weight: 500;                          /* medium, pas semibold */
+  font-family: var(--font-body);
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
+/* iOS systemBlue */
 .badge-blue {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
-  color: var(--color-accent-blue);
-  border: 1px solid rgba(59, 130, 246, 0.3);
-
-  &:hover {
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0.1) 100%);
-  }
+  background: rgba(0, 122, 255, 0.10);
+  color: #007AFF;
+  border: 0.5px solid rgba(0, 122, 255, 0.25);
+  &:hover { background: rgba(0, 122, 255, 0.16); }
 }
 
+/* iOS systemGreen */
 .badge-green {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
-  color: var(--color-accent-green);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-
-  &:hover {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.1) 100%);
-  }
+  background: rgba(52, 199, 89, 0.10);
+  color: #248A3D;                            /* text plus foncé pour lisibilité */
+  border: 0.5px solid rgba(52, 199, 89, 0.25);
+  &:hover { background: rgba(52, 199, 89, 0.16); }
 }
 
+/* iOS systemOrange */
 .badge-orange {
-  background: linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(249, 115, 22, 0.05) 100%);
-  color: var(--color-accent-orange);
-  border: 1px solid rgba(249, 115, 22, 0.3);
-
-  &:hover {
-    background: linear-gradient(135deg, rgba(249, 115, 22, 0.2) 0%, rgba(249, 115, 22, 0.1) 100%);
-  }
+  background: rgba(255, 149, 0, 0.10);
+  color: #C93400;
+  border: 0.5px solid rgba(255, 149, 0, 0.25);
+  &:hover { background: rgba(255, 149, 0, 0.16); }
 }
 
+/* iOS systemIndigo */
 .badge-violet {
-  background: linear-gradient(135deg, rgba(108, 99, 255, 0.1) 0%, rgba(108, 99, 255, 0.05) 100%);
-  color: var(--color-accent-violet);
-  border: 1px solid rgba(108, 99, 255, 0.3);
-
-  &:hover {
-    background: linear-gradient(135deg, rgba(108, 99, 255, 0.2) 0%, rgba(108, 99, 255, 0.1) 100%);
-  }
+  background: rgba(88, 86, 214, 0.10);
+  color: #5856D6;
+  border: 0.5px solid rgba(88, 86, 214, 0.25);
+  &:hover { background: rgba(88, 86, 214, 0.16); }
 }
 
+/* iOS systemTeal */
 .badge-cyan {
-  background: linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(6, 182, 212, 0.05) 100%);
-  color: var(--color-accent-cyan);
-  border: 1px solid rgba(6, 182, 212, 0.3);
-
-  &:hover {
-    background: linear-gradient(135deg, rgba(6, 182, 212, 0.2) 0%, rgba(6, 182, 212, 0.1) 100%);
-  }
+  background: rgba(90, 200, 250, 0.12);
+  color: #0071A4;
+  border: 0.5px solid rgba(90, 200, 250, 0.3);
+  &:hover { background: rgba(90, 200, 250, 0.20); }
 }
 
+/* iOS systemPink */
 .badge-pink {
-  background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(236, 72, 153, 0.05) 100%);
-  color: var(--color-accent-pink);
-  border: 1px solid rgba(236, 72, 153, 0.3);
-
-  &:hover {
-    background: linear-gradient(135deg, rgba(236, 72, 153, 0.2) 0%, rgba(236, 72, 153, 0.1) 100%);
-  }
+  background: rgba(255, 45, 85, 0.10);
+  color: #D70015;
+  border: 0.5px solid rgba(255, 45, 85, 0.25);
+  &:hover { background: rgba(255, 45, 85, 0.16); }
 }
 
-/* CTA Buttons */
+/* iOS Teal — Fintech */
+.badge-teal {
+  background: rgba(90, 200, 250, 0.12);
+  color: #0071A4;
+  border: 0.5px solid rgba(90, 200, 250, 0.3);
+  &:hover { background: rgba(90, 200, 250, 0.20); }
+}
+
+/* ─── Buttons ─────────────────────────────────────────────────────────────── */
 .btn-primary {
-  background: linear-gradient(135deg, var(--color-accent-violet) 0%, var(--color-accent-blue) 100%);
+  background: var(--color-accent-blue);      /* iOS = couleur unie, pas gradient */
   color: #FFFFFF;
-  border-radius: 50px;
+  border-radius: 14px;                       /* iOS button = 14px */
   padding: 0.875rem 1.5rem;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-weight: 600;
   border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(108, 99, 255, 0.3);
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 2px 8px rgba(0, 122, 255, 0.25);
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(108, 99, 255, 0.4);
+    background: #0071E3;                     /* légèrement plus foncé au hover */
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0, 122, 255, 0.35);
   }
-
-  &:active {
-    transform: translateY(0);
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
+  &:active { transform: scale(0.97); }
+  &:disabled { opacity: 0.35; cursor: not-allowed; }
 }
 
 .btn-secondary {
-  background: transparent;
-  border: 2px solid var(--color-accent-violet);
-  color: var(--color-accent-violet);
-  border-radius: 50px;
-  padding: 0.75rem 1.5rem;
-  font-family: var(--font-display);
+  background: rgba(0, 122, 255, 0.08);
+  border: 0.5px solid rgba(0, 122, 255, 0.3);
+  color: var(--color-accent-blue);
+  border-radius: 14px;
+  padding: 0.875rem 1.5rem;
+  font-family: var(--font-body);
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
   &:hover {
-    background: rgba(108, 99, 255, 0.1);
-    transform: translateY(-2px);
+    background: rgba(0, 122, 255, 0.14);
+    transform: translateY(-1px);
   }
-
-  &:active {
-    transform: translateY(0);
-  }
+  &:active { transform: scale(0.97); }
 }
 
-/* Pulse animation for availability badge */
+/* ─── Animations ──────────────────────────────────────────────────────────── */
 @keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.5);
-    opacity: 0;
-  }
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%       { transform: scale(1.5); opacity: 0; }
 }
 
 .pulse {
   animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* Easing curve - Apple style */
 @layer utilities {
+  /* Courbe d'animation Apple */
   .ease-apple {
     --tw-ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
