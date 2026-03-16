@@ -1,0 +1,337 @@
+@import 'tailwindcss';
+
+/* Font definitions */
+@layer base {
+  @font-face {
+    font-family: 'Plus Jakarta Sans';
+    src: local('Plus Jakarta Sans');
+  }
+  @font-face {
+    font-family: 'Inter';
+    src: local('Inter');
+  }
+}
+
+/* Color system - Light Apple Theme */
+:root {
+  /* Backgrounds */
+  --color-bg-primary: #FFFFFF;
+  --color-bg-secondary: #F9FAFB;
+  --color-bg-tertiary: #F0F7FF;
+  --color-bg-card: #FFFFFF;
+  --color-bg-card-hover: #F8FAFC;
+  --color-bg-elevated: #F0F4F8;
+
+  /* Accent system */
+  --color-accent-blue: #3B82F6;
+  --color-accent-violet: #6C63FF;
+  --color-accent-green: #10B981;
+  --color-accent-orange: #F97316;
+  --color-accent-cyan: #06B6D4;
+  --color-accent-pink: #EC4899;
+
+  /* Text */
+  --color-text-primary: #1E1B4B;
+  --color-text-secondary: #64748B;
+  --color-text-tertiary: #94A3B8;
+
+  /* Separators */
+  --color-separator: #E2E8F0;
+  --color-separator-opaque: #CBD5E1;
+
+  /* Typography */
+  --font-display: 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+@theme inline {
+  --color-background: var(--color-bg-primary);
+  --color-foreground: var(--color-text-primary);
+  --color-primary: var(--color-accent-blue);
+  --color-secondary: var(--color-accent-green);
+  --color-accent: var(--color-accent-purple);
+  --color-muted: var(--color-bg-card);
+  --color-muted-foreground: var(--color-text-secondary);
+  --color-border: var(--color-separator);
+  --color-input: var(--color-bg-card);
+  --radius: 1rem;
+}
+
+@layer base {
+  /* Global styling */
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    font-family: var(--font-body);
+    font-weight: 400;
+    color: var(--color-text-primary);
+    background: linear-gradient(135deg, #F0F7FF 0%, #FFFFFF 40%, #F9FAFB 100%);
+
+    /* Scrollbar styling */
+    scrollbar-color: var(--color-accent-blue) transparent;
+    scrollbar-width: thin;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: var(--color-bg-secondary);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--color-accent-blue);
+      border-radius: 4px;
+      border: 2px solid transparent;
+      background-clip: content-box;
+
+      &:hover {
+        background-color: var(--color-accent-violet);
+        background-clip: content-box;
+      }
+    }
+  }
+
+  /* Typography defaults */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    color: var(--color-text-primary);
+    letter-spacing: -0.03em;
+  }
+
+  h4, h5, label, .label {
+    font-weight: 600;
+  }
+
+  .label-uppercase {
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-accent-violet);
+    font-family: var(--font-display);
+  }
+
+  p, li, span {
+    font-family: var(--font-body);
+    font-weight: 400;
+  }
+
+  /* Selection styling */
+  ::selection {
+    background-color: var(--color-accent-blue);
+    color: var(--color-text-primary);
+  }
+
+  /* Focus visible */
+  :focus-visible {
+    outline: 2px solid var(--color-accent-blue);
+    outline-offset: 3px;
+  }
+
+  /* Links */
+  a {
+    color: var(--color-accent-blue);
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  /* Buttons base */
+  button {
+    transition: all 0.2s ease;
+    font-family: var(--font-display);
+  }
+
+  /* Input styling */
+  input, textarea, select {
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-separator);
+    color: var(--color-text-primary);
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-family: var(--font-body);
+    transition: all 0.25s ease;
+
+    &::placeholder {
+      color: var(--color-text-tertiary);
+    }
+
+    &:focus {
+      border-color: var(--color-accent-violet);
+      box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+      outline: none;
+    }
+  }
+}
+
+/* Utility classes */
+.card-base {
+  background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%);
+  border: 1px solid var(--color-separator);
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  backdrop-filter: blur(20px);
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 12px rgba(59, 130, 246, 0.08);
+
+  &:hover {
+    background: linear-gradient(135deg, #FFFFFF 0%, #F0F7FF 100%);
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 8px 24px rgba(59, 130, 246, 0.15);
+    border-color: #BFDBFE;
+  }
+}
+
+.badge-base {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: var(--font-display);
+  transition: all 0.3s ease;
+}
+
+.badge-blue {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
+  color: var(--color-accent-blue);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+
+  &:hover {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0.1) 100%);
+  }
+}
+
+.badge-green {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+  color: var(--color-accent-green);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+
+  &:hover {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.1) 100%);
+  }
+}
+
+.badge-orange {
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(249, 115, 22, 0.05) 100%);
+  color: var(--color-accent-orange);
+  border: 1px solid rgba(249, 115, 22, 0.3);
+
+  &:hover {
+    background: linear-gradient(135deg, rgba(249, 115, 22, 0.2) 0%, rgba(249, 115, 22, 0.1) 100%);
+  }
+}
+
+.badge-violet {
+  background: linear-gradient(135deg, rgba(108, 99, 255, 0.1) 0%, rgba(108, 99, 255, 0.05) 100%);
+  color: var(--color-accent-violet);
+  border: 1px solid rgba(108, 99, 255, 0.3);
+
+  &:hover {
+    background: linear-gradient(135deg, rgba(108, 99, 255, 0.2) 0%, rgba(108, 99, 255, 0.1) 100%);
+  }
+}
+
+.badge-cyan {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(6, 182, 212, 0.05) 100%);
+  color: var(--color-accent-cyan);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+
+  &:hover {
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.2) 0%, rgba(6, 182, 212, 0.1) 100%);
+  }
+}
+
+.badge-pink {
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(236, 72, 153, 0.05) 100%);
+  color: var(--color-accent-pink);
+  border: 1px solid rgba(236, 72, 153, 0.3);
+
+  &:hover {
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.2) 0%, rgba(236, 72, 153, 0.1) 100%);
+  }
+}
+
+/* CTA Buttons */
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-accent-violet) 0%, var(--color-accent-blue) 100%);
+  color: #FFFFFF;
+  border-radius: 50px;
+  padding: 0.875rem 1.5rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(108, 99, 255, 0.3);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(108, 99, 255, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 2px solid var(--color-accent-violet);
+  color: var(--color-accent-violet);
+  border-radius: 50px;
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(108, 99, 255, 0.1);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+/* Pulse animation for availability badge */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+.pulse {
+  animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Easing curve - Apple style */
+@layer utilities {
+  .ease-apple {
+    --tw-ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+}
