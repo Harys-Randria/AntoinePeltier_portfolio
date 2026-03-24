@@ -1,8 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Phone, Mail, Linkedin, Send } from 'lucide-react'
-import { useState } from 'react'
+import { Phone, Linkedin, Calendar, ArrowRight, Clock, CheckCircle } from 'lucide-react'
 
 // ContactCard — supporte Lucide icon OU image PNG
 const ContactCard = ({
@@ -22,8 +21,9 @@ const ContactCard = ({
 }) => {
   const iconColor =
     title === 'Téléphone' ? 'var(--color-accent-blue)'
-    : title === 'Email'   ? 'var(--color-accent-green)'
     : title === 'Malt'    ? 'var(--color-accent-orange)'
+    : title === 'Collective' ? 'var(--color-accent-teal)'
+    : title === 'LinkedIn'   ? 'var(--color-accent-violet)'
     : 'var(--color-accent-teal)'
 
   return (
@@ -31,7 +31,7 @@ const ContactCard = ({
       href={href}
       target={href.startsWith('http') ? '_blank' : undefined}
       rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
-      className="card-base"
+      className="card-base group"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.07, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -41,7 +41,7 @@ const ContactCard = ({
     >
       <div className="flex items-center gap-4">
         <div
-          className="p-3 rounded-lg flex items-center justify-center"
+          className="p-3 rounded-lg flex items-center justify-center transition-all duration-300 group-hover:scale-110"
           style={{ background: `color-mix(in srgb, ${iconColor} 15%, transparent)` }}
         >
           {imageSrc ? (
@@ -66,34 +66,10 @@ const ContactCard = ({
 }
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' })
-  const [submitted, setSubmitted] = useState(false)
-  const [loading, setLoading] = useState(false)
+  const calendlyUrl = "https://calendly.com/votre-username/30min" // À remplacer par votre lien Calendly
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      })
-      if (response.ok) {
-        setSubmitted(true)
-        setFormData({ name: '', email: '', message: '' })
-        setTimeout(() => setSubmitted(false), 5000)
-      }
-    } catch (error) {
-      console.error('Erreur lors de l\'envoi:', error)
-    } finally {
-      setLoading(false)
-    }
+  const openCalendly = () => {
+    window.open(calendlyUrl, '_blank', 'noopener,noreferrer')
   }
 
   return (
@@ -105,6 +81,12 @@ export default function Contact() {
           style={{ background: 'var(--color-accent-violet)' }}
           animate={{ y: [0, 20, 0], x: [0, 10, 0] }}
           transition={{ duration: 12, repeat: Infinity }}
+        />
+        <motion.div
+          className="absolute bottom-20 left-10 w-64 h-64 rounded-full mix-blend-multiply filter blur-3xl"
+          style={{ background: 'var(--color-accent-blue)' }}
+          animate={{ y: [0, -15, 0], x: [0, -10, 0] }}
+          transition={{ duration: 15, repeat: Infinity }}
         />
       </div>
 
@@ -121,106 +103,123 @@ export default function Contact() {
             Travaillons <span style={{ color: 'var(--color-accent-violet)' }}>ensemble</span>
           </h2>
           <motion.div className="flex items-center justify-center gap-2 mb-8">
-            <motion.div className="pulse" style={{ width: '12px', height: '12px', background: 'var(--color-accent-green)', borderRadius: '50%' }} />
+            <motion.div 
+              className="pulse" 
+              style={{ width: '12px', height: '12px', background: 'var(--color-accent-green)', borderRadius: '50%' }}
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
             <p className="text-base" style={{ color: 'var(--color-accent-green)', fontFamily: 'var(--font-body)' }}>
               Disponible pour missions
             </p>
           </motion.div>
         </motion.div>
 
-        {/* Contact Cards — 3 colonnes sur md+, 2 sur sm, 1 sur mobile */}
+        {/* Contact Cards — 2 colonnes sur md+, 1 sur mobile */}
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-16"
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto mb-16"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
           <ContactCard icon={Phone}    title="Téléphone" value="06 45 53 38 62"        href="tel:+33645533862"                             index={0} />
-          <ContactCard icon={Mail}     title="Email"     value="antoine-p@hotmail.com"  href="mailto:antoine-p@hotmail.com"                 index={1} />
-          <ContactCard icon={Linkedin} title="LinkedIn"  value="Antoine PELTIER 👨‍💻"        href="https://www.linkedin.com/in/antoine-peltier72" index={2} />
-          <ContactCard imageSrc="/icons/malt.png"       title="Malt"       value="Antoine P." href="https://www.malt.fr/profile/antoinepeltier2"       index={3} />
-          <ContactCard imageSrc="/icons/collective.png" title="Collective" value="Antoine PELTIER" href="https://www.collective.work/profile/antoine-peltier"            index={4} />
+          <ContactCard icon={Linkedin} title="LinkedIn"  value="Antoine PELTIER 👨‍💻"        href="https://www.linkedin.com/in/antoine-peltier72" index={1} />
+          <ContactCard imageSrc="/icons/malt.png"       title="Malt"       value="Antoine P." href="https://www.malt.fr/profile/antoinepeltier2"       index={2} />
+          <ContactCard imageSrc="/icons/collective.png" title="Collective" value="Antoine PELTIER" href="https://www.collective.work/profile/antoine-peltier"            index={3} />
         </motion.div>
 
-        {/* Contact Form */}
+        {/* Calendly Call to Action */}
         <motion.div
-          className="card-base max-w-2xl mx-auto"
-          initial={{ opacity: 0, y: 20 }}
+          className="max-w-2xl mx-auto"
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
           viewport={{ once: true }}
         >
-          <h3 className="text-2xl font-bold mb-6" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-display)' }}>
-            Envoyez-moi un message
-          </h3>
-
-          {submitted ? (
-            <motion.div
-              className="p-4 rounded-xl text-center text-sm"
-              style={{ background: 'rgba(48, 209, 88, 0.10)', border: '0.5px solid rgba(48, 209, 88, 0.3)', color: 'var(--color-accent-green)', fontFamily: 'var(--font-body)' }}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-            >
-              ✓ Message envoyé — je vous répondrai au plus vite.
-            </motion.div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-medium" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>Nom</label>
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Votre nom"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="w-full"
-                    style={{ fontFamily: 'var(--font-body)' }}
-                  />
+          <motion.div 
+            className="card-base relative overflow-hidden group"
+            whileHover={{ scale: 1.02 }}
+            transition={{ duration: 0.3 }}
+          >
+            {/* Animated gradient background */}
+            <motion.div 
+              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+              style={{ 
+                background: 'radial-gradient(circle at 30% 50%, rgba(108, 99, 255, 0.08), transparent 70%)',
+              }}
+              animate={{
+                scale: [1, 1.2, 1],
+              }}
+              transition={{ duration: 3, repeat: Infinity }}
+            />
+            
+            <div className="relative z-10 text-center p-8 md:p-10">
+              <motion.div 
+                className="inline-flex items-center justify-center mb-6"
+                animate={{ rotate: [0, 5, -5, 0] }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
+                <div className="p-4 rounded-full" style={{ background: 'color-mix(in srgb, var(--color-accent-violet) 15%, transparent)' }}>
+                  <Calendar size={40} style={{ color: 'var(--color-accent-violet)' }} />
                 </div>
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-medium" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>Email</label>
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Votre email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="w-full"
-                    style={{ fontFamily: 'var(--font-body)' }}
-                  />
-                </div>
-              </div>
+              </motion.div>
 
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-medium" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>Message</label>
-                <textarea
-                  name="message"
-                  placeholder="Décrivez votre projet ou votre besoin…"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows={5}
-                  className="w-full"
-                  style={{ fontFamily: 'var(--font-body)', resize: 'vertical' }}
-                />
+              <h3 className="text-3xl font-bold mb-3" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-display)' }}>
+                Planifions un <span style={{ color: 'var(--color-accent-violet)' }}>rendez-vous</span>
+              </h3>
+              
+              <p className="text-base mb-6" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>
+                Discutons de votre projet autour d'un café virtuel. 
+                Choisissez le créneau qui vous convient le mieux.
+              </p>
+
+              <div className="flex flex-wrap justify-center gap-4 mb-8">
+                {[
+                  { icon: Clock, text: "30 min d'échange" },
+                  { icon: CheckCircle, text: "Sans engagement" },
+                  { icon: Calendar, text: "100% en ligne" }
+                ].map((feature, idx) => (
+                  <motion.div
+                    key={idx}
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-full"
+                    style={{ background: 'color-mix(in srgb, var(--color-text-secondary) 5%, transparent)' }}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.4 + idx * 0.1 }}
+                    viewport={{ once: true }}
+                  >
+                    <feature.icon size={14} style={{ color: 'var(--color-accent-green)' }} />
+                    <span className="text-xs" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>{feature.text}</span>
+                  </motion.div>
+                ))}
               </div>
 
               <motion.button
-                type="submit"
-                disabled={loading}
-                className="btn-primary w-full flex items-center justify-center gap-2"
+                onClick={openCalendly}
+                className="btn-primary group relative overflow-hidden"
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.97 }}
+                animate={{
+                  boxShadow: [
+                    '0 0 0 0 rgba(108, 99, 255, 0.4)',
+                    '0 0 0 10px rgba(108, 99, 255, 0)',
+                    '0 0 0 0 rgba(108, 99, 255, 0)'
+                  ]
+                }}
+                transition={{ duration: 2, repeat: Infinity }}
               >
-                <Send size={16} strokeWidth={1.5} />
-                {loading ? 'Envoi en cours…' : 'Envoyer le message'}
+                <span className="flex items-center gap-2">
+                  Réserver un créneau
+                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                </span>
               </motion.button>
-            </form>
-          )}
+
+              <p className="text-xs mt-6" style={{ color: 'var(--color-text-tertiary)', fontFamily: 'var(--font-body)' }}>
+                🔒 Prise de rendez-vous sécurisée via Calendly
+              </p>
+            </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>

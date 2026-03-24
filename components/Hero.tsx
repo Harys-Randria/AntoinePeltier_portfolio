@@ -2,32 +2,52 @@
 
 import { motion } from 'framer-motion'
 import { Linkedin, Mail, ChevronDown } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 const Counter = ({ end, duration = 1.2 }: { end: number; duration?: number }) => {
   const [count, setCount] = useState(0)
+  const [hasAnimated, setHasAnimated] = useState(false)
+  const elementRef = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
-    let startTime: number
-    let animationFrameId: number
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !hasAnimated) {
+          setHasAnimated(true)
+          
+          let startTime: number
+          let animationFrameId: number
 
-    const animate = (currentTime: number) => {
-      if (!startTime) startTime = currentTime
-      const elapsed = currentTime - startTime
-      const progress = Math.min(elapsed / (duration * 1000), 1)
+          const animate = (currentTime: number) => {
+            if (!startTime) startTime = currentTime
+            const elapsed = currentTime - startTime
+            const progress = Math.min(elapsed / (duration * 1000), 1)
+            
+            const easeOutCubic = 1 - Math.pow(1 - progress, 3)
+            setCount(Math.floor(end * easeOutCubic))
 
-      setCount(Math.floor(end * progress))
+            if (progress < 1) {
+              animationFrameId = requestAnimationFrame(animate)
+            } else {
+              setCount(end)
+            }
+          }
 
-      if (progress < 1) {
-        animationFrameId = requestAnimationFrame(animate)
-      }
+          animationFrameId = requestAnimationFrame(animate)
+          return () => cancelAnimationFrame(animationFrameId)
+        }
+      },
+      { threshold: 0.3 }
+    )
+
+    if (elementRef.current) {
+      observer.observe(elementRef.current)
     }
 
-    animationFrameId = requestAnimationFrame(animate)
-    return () => cancelAnimationFrame(animationFrameId)
-  }, [end, duration])
+    return () => observer.disconnect()
+  }, [end, duration, hasAnimated])
 
-  return <span>{count}</span>
+  return <span ref={elementRef}>{count}</span>
 }
 
 export default function Hero() {
@@ -162,9 +182,9 @@ export default function Hero() {
               className="grid grid-cols-3 gap-4 py-6"
             >
               {[
-                { value: 6, suffix: '+', label: 'ans d\'expérience' },
-                { value: 10, suffix: 'K+', label: 'téléchargements' },
-                { value: 4.40, suffix: '/5', label: 'note' },
+                { value: 6, suffix: '+', label: "ans d'expérience", isDecimal: false },
+                { value: 50, suffix: 'K+', label: 'téléchargements', isDecimal: false },
+                { value: 4.8, suffix: '/5', label: 'note App Store', isDecimal: true },
               ].map((stat, i) => (
                 <motion.div
                   key={i}
@@ -172,16 +192,18 @@ export default function Hero() {
                   whileHover={{ y: -3 }}
                 >
                   <div className="text-2xl font-bold" style={{ color: 'var(--color-accent-violet)', fontFamily: 'var(--font-display)' }}>
-                   
-                    {stat.value % 1 !== 0 ? (
+                    {stat.isDecimal ? (
                       <>
                         <Counter end={Math.floor(stat.value)} />
                         {`.${String(stat.value).split('.')[1]}`}
+                        {stat.suffix}
                       </>
                     ) : (
-                      <Counter end={stat.value} />
+                      <>
+                        <Counter end={stat.value} />
+                        {stat.suffix}
+                      </>
                     )}
-                    {stat.suffix}
                   </div>
                   <p className="text-xs mt-1" style={{ color: 'var(--color-text-secondary)' }}>{stat.label}</p>
                 </motion.div>

@@ -27,9 +27,32 @@ export default function Footer() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="text-2xl font-bold mb-2" style={{ background: 'linear-gradient(135deg, #6C63FF 0%, #3B82F6 100%)', backgroundClip: 'text', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: 'var(--font-display)' }}>
-              AP
-            </div>
+            <motion.div 
+              className="mb-2"
+              initial={{ width: 0 }}
+              whileInView={{ width: 'auto' }}
+              transition={{ delay: 0.3, duration: 0.8, ease: "easeOut" }}
+              viewport={{ once: true }}
+            >
+              <span className="text-2xl font-bold relative inline-block" style={{ fontFamily: 'var(--font-display)' }}>
+                <span className="relative z-10" style={{ 
+                  background: 'linear-gradient(135deg, #6C63FF 0%, #3B82F6 100%)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                }}>
+                  Antoine PELTIER
+                </span>
+                <motion.span 
+                  className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg -z-10"
+                  initial={{ scaleX: 0 }}
+                  whileInView={{ scaleX: 1 }}
+                  transition={{ delay: 0.5, duration: 0.6, ease: "easeOut" }}
+                  viewport={{ once: true }}
+                  style={{ originX: 0, filter: 'blur(6px)', opacity: 0.2 }}
+                />
+              </span>
+            </motion.div>
             <p className="text-sm leading-relaxed" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>
               Développeur iOS senior spécialisé dans la création d'applications natives performantes et modernes.
             </p>
@@ -93,7 +116,7 @@ export default function Footer() {
                 <Mail size={20} />
               </motion.a>
               <motion.a
-                href="https://www.malt.fr/profile/REMPLACE_MOI"
+                href="https://www.malt.fr/profile/antoinepeltier2"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 rounded-lg transition-all"
@@ -104,7 +127,7 @@ export default function Footer() {
                 <img src="/icons/malt.png" alt="Malt" width={20} height={20} className="object-contain" />
               </motion.a>
               <motion.a
-                href="https://collective.work/REMPLACE_MOI"
+                href="https://www.collective.work/profile/antoine-peltier"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 rounded-lg transition-all"
