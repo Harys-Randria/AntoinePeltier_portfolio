@@ -66,7 +66,7 @@ const ContactCard = ({
 }
 
 export default function Contact() {
-  const calendlyUrl = "https://calendly.com/votre-username/30min" // À remplacer par votre lien Calendly
+  const calendlyUrl = "https://calendly.com/ant-dev-pcjn/30min" 
 
   const openCalendly = () => {
     window.open(calendlyUrl, '_blank', 'noopener,noreferrer')
