@@ -69,7 +69,7 @@ export default function Navigation() {
                   className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-blue-500"
                 >
                   <Image
-                    src="/antoine-peltier.png"
+                    src="/antoine-peltier.jpg"
                     alt="Antoine PELTIER"
                     fill
                     className="object-cover"

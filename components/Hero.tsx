@@ -296,7 +296,7 @@ export default function Hero() {
               <div className="absolute inset-0 rounded-full p-1 flex items-center justify-center" style={{ border: '3px solid var(--color-accent-blue)', boxShadow: '0 0 0 6px rgba(10, 132, 255, 0.1), 0 0 40px rgba(10, 132, 255, 0.15)' }}>
                 <div className="w-full h-full rounded-full overflow-hidden" style={{ backgroundColor: 'var(--color-bg-card)' }}>
                   <img
-                    src="/antoine-peltier.png"
+                    src="/antoine-peltier.jpg"
                     alt="Antoine PELTIER"
                     className="w-full h-full object-cover"
                   />
